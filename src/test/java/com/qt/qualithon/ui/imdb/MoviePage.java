@@ -73,6 +73,45 @@ public class MoviePage extends Page{
      **/
     public List<String> genres(){
         List<String> genres = new ArrayList<>();
+         List<WebElement> credits = this.testSession.driverWait().until(
+
+           
+
+          ExpectedConditions.presenceOfAllElementsLocatedBy(
+
+
+
+              By.cssSelector("div[data-testid='genres']")));
+
+
+
+
+
+        // traverse credits sections to find the section with generes
+
+
+
+        for(WebElement credit:credits){
+
+
+
+            List<WebElement> genersElements = credit.findElements(By.cssSelector("a"));
+
+
+
+            for(int i = 0; i < genersElements.size() ; i++){
+
+
+
+                genres.add(genersElements.get(i).getText());
+
+
+
+            }
+
+
+
+        }
         
         // if genres list is empty throw exception
         if(genres.isEmpty()){
@@ -86,13 +125,20 @@ public class MoviePage extends Page{
      *
      * @return    movie release year
      **/
-    public String releaseYear(){
+     public String releaseYear(){
+
         return this.testSession.driverWait().until(
+
             ExpectedConditions.presenceOfElementLocated(
-                By.cssSelector("ul[data-testid='hero-title-block__metadata']")
-            ) 
-        ).getText();
+
+                By.xpath("//*[@id='__next']/main/div/section[1]/section/div[3]/section/section/div[2]/div[1]/div/ul/li[1]/a"))).getText();
+
     }
+    
+
+
+
+    
 
     /**
      * get list of movie writers
@@ -111,7 +157,7 @@ public class MoviePage extends Page{
                 if(credit.findElement(By.cssSelector("span")).getText().equalsIgnoreCase("Writers")){
                     // traverse list of writers on page to add to writers list
                     List<WebElement> writersElements = credit.findElements(By.cssSelector("a"));
-                    for(int i = writersElements.size()-1; i >= 0 ; i--){
+                    for(int i = 0; i < writersElements.size() ; i++){
                         writers.add(writersElements.get(i).getText());
                     }
                     break;
