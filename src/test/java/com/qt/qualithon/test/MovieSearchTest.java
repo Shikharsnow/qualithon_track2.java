@@ -41,8 +41,8 @@ public class MovieSearchTest {
     @DataProvider
     public Object[][] popularMovieTitles() {
         return new Object [][] {
-            {"A Clockwork Orange"},
-            {"The Dark Knight Rises"}
+          {"A Clockwork Orange"},
+          {"The Dark Knight Rises"}
         };
     }
   
@@ -154,7 +154,13 @@ public class MovieSearchTest {
     @Test(dataProvider = "popularMovieTitles")
     public void testMovieMetadataOnWebHasCorrectMaturityRating(String title) throws Exception {
         // NOT IMPLEMENTED
-        throw new Exception("Test Pending");
+        MoviePage movieOnImdbWeb = new WebApp(this.testSession)
+            .launch()
+            .search(title)
+            .firstMovieResult();
+            Movie movie = new OMDbAPI().getMovie(title);
+            assertThat(movieOnImdbWeb.Rated()).isEqualTo(movie.rated());
+        // throw new Exception("Test Pending");
     }
 
     /**
@@ -167,6 +173,13 @@ public class MovieSearchTest {
     @Test(dataProvider = "popularMovieTitles")
     public void testMovieMetadataOnWebHasCorrectMovieRatingScore(String title) throws Exception {
         // NOT IMPLEMENTED
-        throw new Exception("Test Pending");
+        MoviePage movieOnImdbWeb = new WebApp(this.testSession)
+            .launch()
+            .search(title)
+            .firstMovieResult();
+            Movie movie = new OMDbAPI().getMovie(title);
+            assertThat(movieOnImdbWeb.ImdbRating()).isEqualTo(movie.imdbRating());
+        // throw new Exception("Test Pending");
+    
     }
 }
